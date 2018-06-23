@@ -35,13 +35,20 @@ namespace Av.API
             return builder.ToString();
         }
 
-        public JObject request(String url)
+        public async Task<JObject> request(String url)
         {
-            string content = request_async(url).Result;
+            string content = await request_async(url);
             var obj = JsonConvert.DeserializeObject(content);
             if (! (obj is JObject)) return null;
             JObject json = (JObject)obj;
             return json;
+        }
+
+        public string request_sync(String url)
+        {
+            Task<string> task = request_async(url);
+            var result = task.Result;
+            return result;
         }
 
         public async Task<string> request_async(String url)

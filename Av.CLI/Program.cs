@@ -12,9 +12,9 @@ namespace Av.CLI
         static void Main(string[] args)
         {
             StockAvProvider provider = new StockAvProvider(args[0]);
-            Console.WriteLine(provider.requestDaily("SGO.PA"));
-            Console.WriteLine(provider.requestWeekly("SGO.PA"));
-            Console.WriteLine(provider.requestMonthly("SGO.PA"));
+            provider.requestDaily("SGO.PA");
+            provider.requestWeekly("SGO.PA");
+            provider.requestMonthly("SGO.PA");
         }
     }
 }
