@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace AVUi
 {
     /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
+    /// Logique d'interaction pour AvChart.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AvChart : UserControl
     {
-        public MainWindow()
+        public AvChart()
         {
             InitializeComponent();
         }
