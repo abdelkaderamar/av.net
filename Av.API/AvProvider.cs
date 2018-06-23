@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +14,9 @@ namespace Av.API
         public static readonly string APIKEY_PARAM = "apikey=";
         public static readonly string SYMBOL_PARAM = "symbol=";
 
+
         private string _key;
+
         private HttpClient _httpClient;
 
         public AvProvider(string key)
@@ -31,10 +35,13 @@ namespace Av.API
             return builder.ToString();
         }
 
-        public string request(String url)
+        public JObject request(String url)
         {
             string content = request_async(url).Result;
-            return content;
+            var obj = JsonConvert.DeserializeObject(content);
+            if (! (obj is JObject)) return null;
+            JObject json = (JObject)obj;
+            return json;
         }
 
         public async Task<string> request_async(String url)
