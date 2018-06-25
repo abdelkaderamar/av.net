@@ -69,31 +69,31 @@ namespace VolumeChart
             //Dates = dates;
             //this.AxisX.Labels = Dates;
 
-            if (StockSerieType.Equals("Open"))
-            {
-                var mapper = Mappers.Xy<StockDataItem>().X(model => model.DateTime.Ticks).Y(model => model.Open);
-                Charting.For<StockDataItem>(mapper);
-            }
-            else if (StockSerieType.Equals("High"))
-            {
-                var mapper = Mappers.Xy<StockDataItem>().X(model => model.DateTime.Ticks).Y(model => model.High);
-                Charting.For<StockDataItem>(mapper);
-            }
-            else if (StockSerieType.Equals("Low"))
-            {
-                var mapper = Mappers.Xy<StockDataItem>().X(model => model.DateTime.Ticks).Y(model => model.Low);
-                Charting.For<StockDataItem>(mapper);
-            }
-            else if (StockSerieType.Equals("Close"))
-            {
-                var mapper = Mappers.Xy<StockDataItem>().X(model => model.DateTime.Ticks).Y(model => model.Close);
-                Charting.For<StockDataItem>(mapper);
-            }
-            else if (StockSerieType.Equals("Volume"))
-            {
-                var mapper = Mappers.Xy<StockDataItem>().X(model => model.DateTime.Ticks).Y(model => model.Volume);
-                Charting.For<StockDataItem>(mapper);
-            }
+            //if (StockSerieType.Equals("Open"))
+            //{
+            //    var mapper = Mappers.Xy<StockDataItem>().X(model => model.DateTime.Ticks).Y(model => model.Open);
+            //    Charting.For<StockDataItem>(mapper);
+            //}
+            //else if (StockSerieType.Equals("High"))
+            //{
+            //    var mapper = Mappers.Xy<StockDataItem>().X(model => model.DateTime.Ticks).Y(model => model.High);
+            //    Charting.For<StockDataItem>(mapper);
+            //}
+            //else if (StockSerieType.Equals("Low"))
+            //{
+            //    var mapper = Mappers.Xy<StockDataItem>().X(model => model.DateTime.Ticks).Y(model => model.Low);
+            //    Charting.For<StockDataItem>(mapper);
+            //}
+            //else if (StockSerieType.Equals("Close"))
+            //{
+            //    var mapper = Mappers.Xy<StockDataItem>().X(model => model.DateTime.Ticks).Y(model => model.Close);
+            //    Charting.For<StockDataItem>(mapper);
+            //}
+            //else if (StockSerieType.Equals("Volume"))
+            //{
+            //    var mapper = Mappers.Xy<StockDataItem>().X(model => model.DateTime.Ticks).Y(model => model.Volume);
+            //    Charting.For<StockDataItem>(mapper);
+            //}
 
             StockSeriesCollection[0].Values = new ChartValues<StockDataItem>(StockData.Data.Values);
         }
@@ -114,8 +114,9 @@ namespace VolumeChart
 
         private void Handle()
         {
-            StockSerieType = StockSerieTypesCombo.SelectedItem.ToString();
-            init();
+            //if (StockSerieTypesCombo.SelectedItem == null) return;
+            //StockSerieType = StockSerieTypesCombo.SelectedItem.ToString();
+            //init();
         }
 
         #region INotifyPropertyChanged implementation
@@ -130,5 +131,15 @@ namespace VolumeChart
 
         #endregion
 
+        private async void addStockBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string symbol = this.stockTextBox.Text;
+            if (string.IsNullOrEmpty(symbol)) return;
+
+            StockAvProvider stockProvider = new StockAvProvider("XD6HTE47G8ZZIDRB");
+            StockData stockData = await stockProvider.requestDailyAsync(symbol);
+            ((MainWindow)Application.Current.MainWindow).volumeChart.StockData = stockData;
+            ((MainWindow)Application.Current.MainWindow).volumeChart.init();
+        }
     }
 }

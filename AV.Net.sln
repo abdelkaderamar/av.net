@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{071E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VolumeChart", "Samples\VolumeChart\VolumeChart.csproj", "{E578086F-2340-4A60-AA06-A33ED436414A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleStockVolumeChart", "Samples\MultipleStockVolumeChart\MultipleStockVolumeChart.csproj", "{4DD011D9-DB08-46F8-B953-CB4BADE22E74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +37,17 @@ Global
 		{E578086F-2340-4A60-AA06-A33ED436414A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E578086F-2340-4A60-AA06-A33ED436414A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E578086F-2340-4A60-AA06-A33ED436414A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DD011D9-DB08-46F8-B953-CB4BADE22E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DD011D9-DB08-46F8-B953-CB4BADE22E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DD011D9-DB08-46F8-B953-CB4BADE22E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DD011D9-DB08-46F8-B953-CB4BADE22E74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E578086F-2340-4A60-AA06-A33ED436414A} = {071E207F-3E4C-43E4-8360-E72D84B48BAA}
+		{4DD011D9-DB08-46F8-B953-CB4BADE22E74} = {071E207F-3E4C-43E4-8360-E72D84B48BAA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {13857122-E7C1-400F-A5C5-41406B6C394D}

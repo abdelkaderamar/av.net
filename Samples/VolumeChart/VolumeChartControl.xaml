@@ -7,17 +7,19 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <ComboBox x:Name="StockSerieTypesCombo" Grid.Row="0" VerticalAlignment="Top" Width="120"
+    <DockPanel LastChildFill="True">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <!--
+            <ComboBox x:Name="StockSerieTypesCombo"  Margin="8" MinWidth="120"
                   ItemsSource="{Binding Path=StockSerieTypes}"
                   SelectedValue="{Binding Path=StockSerieType}" HorizontalAlignment="Center"
                   SelectionChanged="ComboBox_SelectionChanged" DropDownClosed="ComboBox_DropDownClosed"/>
-
-        <lvc:CartesianChart Grid.Row="1" x:Name="volumeChart" Series="{Binding StockSeriesCollection}">
+            -->
+            <TextBox x:Name="stockTextBox" MinWidth="80" Margin="8"></TextBox>
+            <Button x:Name="addStockBtn" Content="Add" Margin="8" Click="addStockBtn_Click"></Button>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" x:Name="StockPanel" DockPanel.Dock="Left"></StackPanel>
+        <lvc:CartesianChart x:Name="volumeChart" Series="{Binding StockSeriesCollection}">
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="Dates" LabelFormatter="{Binding DateTimeFormatter}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
@@ -25,5 +27,5 @@
                 <lvc:Axis Title="Volume" ></lvc:Axis>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
-    </Grid>
+    </DockPanel>
 </UserControl>
