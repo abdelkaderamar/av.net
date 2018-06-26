@@ -42,17 +42,17 @@ namespace CAC40Performance
             DataContext = this;
             PerfManager = new PerformanceManager();
 
-            UpdateData();
+            UpdateData(true);
         }
 
-        void UpdateData()
+        void UpdateData(bool download)
         { 
             BackgroundWorker worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_DownloadData;
             worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-            worker.RunWorkerAsync();
+            worker.RunWorkerAsync(download);
         }
 
 
@@ -80,10 +80,14 @@ namespace CAC40Performance
         {
             StockSeriesCollection[0].Values.Clear();
             StockAvProvider stockProvider = new StockAvProvider("XD6HTE47G8ZZIDRB");
-            foreach (var symbol in CAC40Helper.CAC40_STOCKS)
+            bool download = (bool)e.Argument;
+            if (download)
             {
-                StockData stockData = stockProvider.requestDaily(symbol);
-                PerfManager.StocksData[symbol] = stockData;
+                foreach (var symbol in CAC40Helper.CAC40_STOCKS)
+                {
+                    StockData stockData = stockProvider.requestDaily(symbol);
+                    PerfManager.StocksData[symbol] = stockData;
+                }
             }
             var stocksPerformances = PerfManager.ComputeAllPerformances(ReferenceStock, ReferenceDate);
             string[] labels = new string[stocksPerformances.Count];
@@ -107,7 +111,16 @@ namespace CAC40Performance
             if (string.IsNullOrEmpty(newRefStock)) return;
 
             ReferenceStock = newRefStock;
-            UpdateData();
+            UpdateData(false);
+        }
+
+        private void DatePicker_CalendarClosed(object sender, RoutedEventArgs e)
+        {
+            var selectedDate = this.datePicker.SelectedDate;
+            if (selectedDate == null) return;
+
+            ReferenceDate = (DateTime)selectedDate;
+            UpdateData(false);
         }
     }
 }
