@@ -10,7 +10,7 @@ namespace Av.API
         public StockData(string symbol)
         {
             Symbol = symbol;
-            Data = new Dictionary<DateTime, StockDataItem>();
+            Data = new SortedDictionary<DateTime, StockDataItem>();
         }
 
         public string Symbol { get; }

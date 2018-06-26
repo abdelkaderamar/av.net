@@ -48,6 +48,8 @@ namespace Av.API
         public async Task<StockData> requestDailyAsync(string symbol, bool full = false)
         {
             var url = getUrl(symbol, DAILY_FUNC);
+            if (full) url += "&outputsize=full";
+
             var json = await request(url);
 
             var stockData = requestData(json, DAILY_TIME_SERIES);
