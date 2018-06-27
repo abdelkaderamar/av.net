@@ -53,7 +53,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Av.API\Av.API.csproj">
+    <ProjectReference Include="..\..\Av.API\Av.API.csproj">
       <Project>{dd179e8a-726a-4ae8-875b-9fbc3d84baf7}</Project>
       <Name>Av.API</Name>
     </ProjectReference>
