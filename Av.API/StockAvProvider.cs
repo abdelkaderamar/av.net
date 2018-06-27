@@ -58,16 +58,25 @@ namespace Av.API
         }
 
 
-        public JObject requestWeekly(string symbol)
+        public StockData requestWeekly(string symbol)
         {
             var url = getUrl(symbol, WEEKLY_FUNC);
-            return request(url).Result;
+            var json = request(url).Result;
+
+            var stockData = requestData(json, WEEKLY_TIME_SERIES);
+
+            return stockData;
+
         }
 
-        public JObject requestMonthly(string symbol)
+        public StockData requestMonthly(string symbol)
         {
             var url = getUrl(symbol, MONTHLY_FUNC);
-            return request(url).Result;
+            var json = request(url).Result;
+
+            var stockData = requestData(json, MONTHLY_TIME_SERIES);
+
+            return stockData;
         }
 
         protected StockData requestData(JObject json, string timeSeriesKey)

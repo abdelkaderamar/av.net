@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace Av.API
 {
+    public enum RequestType { Daily, DailyAdjusted, Weekly, WeeklyAdjusted, Monthly, MonthlyAdjusted}
+
     public abstract class AvProvider
     {
         public static readonly string BASE_URL = "https://www.alphavantage.co/query?";
