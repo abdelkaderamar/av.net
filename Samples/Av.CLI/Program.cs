@@ -16,6 +16,8 @@ namespace Av.CLI
             provider.requestWeekly("SGO.PA");
             provider.requestMonthly("SGO.PA");
 
+            provider.BatchRequest(new string[] { "MSFT", "IBM", "AAPL" });
+
             AvRequestManager requestManager = new AvRequestManager(provider);
             string[] stocks = new string[] { "SGO.PA", "GLE.PA", "BNP.PA", "VIV.PA", "RNO.PA", "CS.PA" };
             requestManager.Start();
@@ -26,6 +28,7 @@ namespace Av.CLI
                 requestManager.Add(RequestType.Monthly, stock, Callback);
             }
             requestManager.Stop(true);
+
         }
 
         private static void Callback(RequestType requestType, string symbol, StockData stockData)

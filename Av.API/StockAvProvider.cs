@@ -14,6 +14,7 @@ namespace Av.API
         public static readonly string DAILY_FUNC = "TIME_SERIES_DAILY";
         public static readonly string WEEKLY_FUNC = "TIME_SERIES_WEEKLY";
         public static readonly string MONTHLY_FUNC = "TIME_SERIES_MONTHLY";
+        public static readonly string BATCH_FUNC = "BATCH_STOCK_QUOTES";
         #endregion
 
         #region JSON keys
@@ -21,6 +22,7 @@ namespace Av.API
         public static readonly string DAILY_TIME_SERIES = "Time Series (Daily)";
         public static readonly string WEEKLY_TIME_SERIES = "Weekly Time Series";
         public static readonly string MONTHLY_TIME_SERIES = "Monthly Time Series";
+        public static readonly string STOCK_QUOTES = "Stock Quotes";
 
         public static readonly string SYMBOL_KEY = "2. Symbol";
 
@@ -33,6 +35,7 @@ namespace Av.API
 
         #region AlphaVantage format
         public static readonly string AV_DATE_FORMAT = "yyyy-MM-dd";
+        public static readonly string AV_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
         #endregion
 
         public StockAvProvider(string key) : base(key)
@@ -77,6 +80,14 @@ namespace Av.API
             var stockData = requestData(json, MONTHLY_TIME_SERIES);
 
             return stockData;
+        }
+
+        public void BatchRequest(string[] symbols)
+        {
+            var url = getUrl(symbols, BATCH_FUNC);
+            var json = request(url).Result;
+
+            RequestBatchData(json);
         }
 
         protected StockData requestData(JObject json, string timeSeriesKey)
@@ -124,6 +135,30 @@ namespace Av.API
                 }
             } // end foreach
             return stockData;
+        }
+
+        public IDictionary<string, StockRealtime> RequestBatchData(JObject json)
+        {
+            IDictionary<string, StockRealtime> realtimes = new Dictionary<string, StockRealtime>();
+
+            bool containAllKeys = json.ContainsKey(META_DATA) && json.ContainsKey(STOCK_QUOTES);
+            if (!containAllKeys) return null;
+
+            JToken jtoken = json.GetValue(STOCK_QUOTES);
+            if (jtoken is JArray)
+            {
+                JArray stockQuotes = (jtoken as JArray);
+                foreach (var stockQuote in stockQuotes.Children<JObject>())
+                {
+                    string symbol = getValue(stockQuote, BatchKeys.SYMBOL);
+                    double price = getDoubleValue(stockQuote, BatchKeys.PRICE);
+                    long volume = getLongValue(stockQuote, BatchKeys.VOLUME);
+                    DateTime timestamp = DateTime.ParseExact(getValue(stockQuote, BatchKeys.TIMESTAMP), 
+                        AV_DATETIME_FORMAT, CultureInfo.InvariantCulture);
+                    realtimes[symbol] = new StockRealtime(symbol) { Price = price, Volume = volume, Timestamp = timestamp };
+                }
+            }
+            return realtimes;
         }
 
         static string getValue(JObject json, string property)

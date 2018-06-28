@@ -15,6 +15,7 @@ namespace Av.API
         public static readonly string FUNC_PARAM = "function=";
         public static readonly string APIKEY_PARAM = "apikey=";
         public static readonly string SYMBOL_PARAM = "symbol=";
+        public static readonly string SYMBOLS_PARAM = "symbols=";
 
 
         private string _key;
@@ -32,6 +33,16 @@ namespace Av.API
             StringBuilder builder = new StringBuilder();
             builder.Append(BASE_URL).Append(FUNC_PARAM).Append(function)
                 .Append("&").Append(SYMBOL_PARAM).Append(symbol).Append("&")
+                .Append(APIKEY_PARAM).Append(_key);
+
+            return builder.ToString();
+        }
+
+        public string getUrl(string[] symbols, string function)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(BASE_URL).Append(FUNC_PARAM).Append(function)
+                .Append("&").Append(SYMBOLS_PARAM).Append(string.Join(",", symbols)).Append("&")
                 .Append(APIKEY_PARAM).Append(_key);
 
             return builder.ToString();
