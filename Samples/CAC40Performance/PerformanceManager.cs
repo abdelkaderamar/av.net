@@ -65,6 +65,10 @@ namespace CAC40Performance
                 {
                     Console.WriteLine(e.StackTrace);
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                }
             }
 
             List<StockPerformance> stockPerfList = new List<StockPerformance>(StocksPerformance.Values);

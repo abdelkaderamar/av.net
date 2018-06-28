@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -87,6 +88,7 @@ namespace CAC40Performance
                 {
                     StockData stockData = stockProvider.requestDaily(symbol);
                     PerfManager.StocksData[symbol] = stockData;
+                    Thread.Sleep(2000);
                 }
             }
             var stocksPerformances = PerfManager.ComputeAllPerformances(ReferenceStock, ReferenceDate);
