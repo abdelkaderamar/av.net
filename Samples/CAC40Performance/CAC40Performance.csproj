@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Av.API\Av.API.csproj">
-      <Project>{dd179e8a-726a-4ae8-875b-9fbc3d84baf7}</Project>
+      <Project>{e234d834-aeea-47c0-87b6-7dbbe2a5f96f}</Project>
       <Name>Av.API</Name>
     </ProjectReference>
   </ItemGroup>
