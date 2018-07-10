@@ -28,7 +28,7 @@ namespace Av.API
             _httpClient = new HttpClient();
         }
 
-        public string getUrl(string symbol, string function)
+        public string GetUrl(string symbol, string function)
         {
             StringBuilder builder = new StringBuilder();
             builder.Append(BASE_URL).Append(FUNC_PARAM).Append(function)
@@ -38,7 +38,7 @@ namespace Av.API
             return builder.ToString();
         }
 
-        public string getUrl(string[] symbols, string function)
+        public string GetUrl(string[] symbols, string function)
         {
             StringBuilder builder = new StringBuilder();
             builder.Append(BASE_URL).Append(FUNC_PARAM).Append(function)
@@ -48,23 +48,23 @@ namespace Av.API
             return builder.ToString();
         }
 
-        public async Task<JObject> request(String url)
+        public async Task<JObject> Request(String url)
         {
-            string content = await request_async(url);
+            string content = await RequestAsync(url);
             var obj = JsonConvert.DeserializeObject(content);
             if (! (obj is JObject)) return null;
             JObject json = (JObject)obj;
             return json;
         }
 
-        public string request_sync(String url)
+        public string RequestSync(String url)
         {
-            Task<string> task = request_async(url);
+            Task<string> task = RequestAsync(url);
             var result = task.Result;
             return result;
         }
 
-        public async Task<string> request_async(String url)
+        public async Task<string> RequestAsync(String url)
         {
             using (HttpResponseMessage response = await _httpClient.GetAsync(url))
             {

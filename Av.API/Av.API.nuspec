@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Av.API</id>
+    <version>0.1</version>
+    <title>Alpha Vantage non official C# API</title>
+    <authors>Abdelkader Amar</authors>
+    <owners>abdelkader.amar@gmail.com</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/abdelkaderamar/av.net/</projectUrl>
+    <iconUrl>https://github.com/abdelkaderamar/av.net/blob/master/icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Alpha Vantage non official C# API to request the data provided by their REST API</description>
+    <releaseNotes>Alpha Vantage non official C# API.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>C# Finance</tags>
+  </metadata>
+</package>

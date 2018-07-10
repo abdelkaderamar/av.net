@@ -11,9 +11,9 @@ namespace Av.CLI
     {
         static void Main(string[] args)
         {
-            StockAvProvider provider = new StockAvProvider(args[0]);
-            provider.requestDaily("SGO.PA");
-            provider.requestWeekly("SGO.PA");
+            AvStockProvider provider = new AvStockProvider(args[0]);
+            provider.RequestDaily("SGO.PA");
+            provider.RequestWeekly("SGO.PA");
             provider.requestMonthly("SGO.PA");
 
             provider.BatchRequest(new string[] { "MSFT", "IBM", "AAPL" });

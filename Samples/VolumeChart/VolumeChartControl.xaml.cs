@@ -136,8 +136,8 @@ namespace VolumeChart
             string symbol = this.stockTextBox.Text;
             if (string.IsNullOrEmpty(symbol)) return;
 
-            StockAvProvider stockProvider = new StockAvProvider("XD6HTE47G8ZZIDRB");
-            StockData stockData = await stockProvider.requestDailyAsync(symbol);
+            AvStockProvider stockProvider = new AvStockProvider("XD6HTE47G8ZZIDRB");
+            StockData stockData = await stockProvider.RequestDailyAsync(symbol);
             ((MainWindow)Application.Current.MainWindow).volumeChart.StockData = stockData;
             ((MainWindow)Application.Current.MainWindow).volumeChart.init();
         }

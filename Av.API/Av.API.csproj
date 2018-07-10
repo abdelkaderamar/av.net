@@ -48,7 +48,7 @@
     <Compile Include="AvRequestManager.cs" />
     <Compile Include="BatchKeys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StockAvProvider.cs" />
+    <Compile Include="AvStockProvider.cs" />
     <Compile Include="StockData.cs" />
     <Compile Include="StockRealtime.cs" />
   </ItemGroup>

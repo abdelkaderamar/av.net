@@ -19,7 +19,7 @@ namespace Av.API
 
         
 
-        public void addDataItem(StockDataItem dataItem)
+        public void AddDataItem(StockDataItem dataItem)
         {
             this.Data[dataItem.DateTime] = dataItem;
         }

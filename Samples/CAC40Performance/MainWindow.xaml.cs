@@ -80,13 +80,13 @@ namespace CAC40Performance
         private void worker_DownloadData(object sender, DoWorkEventArgs e)
         {
             StockSeriesCollection[0].Values.Clear();
-            StockAvProvider stockProvider = new StockAvProvider("XD6HTE47G8ZZIDRB");
+            AvStockProvider stockProvider = new AvStockProvider("XD6HTE47G8ZZIDRB");
             bool download = (bool)e.Argument;
             if (download)
             {
                 foreach (var symbol in CAC40Helper.CAC40_STOCKS)
                 {
-                    StockData stockData = stockProvider.requestDaily(symbol);
+                    StockData stockData = stockProvider.RequestDaily(symbol);
                     PerfManager.StocksData[symbol] = stockData;
                     Thread.Sleep(2000);
                 }

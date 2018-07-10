@@ -19,8 +19,8 @@ namespace VolumeChart
         {
             base.OnStartup(e);
 
-            StockAvProvider stockProvider = new StockAvProvider("XD6HTE47G8ZZIDRB");
-            StockData stockData = await stockProvider.requestDailyAsync("SGO.PA");
+            AvStockProvider stockProvider = new AvStockProvider("XD6HTE47G8ZZIDRB");
+            StockData stockData = await stockProvider.RequestDailyAsync("SGO.PA");
             ((MainWindow)Application.Current.MainWindow).volumeChart.StockData = stockData;
             ((MainWindow)Application.Current.MainWindow).volumeChart.init();
         }

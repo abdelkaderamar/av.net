@@ -22,9 +22,9 @@ namespace Av.API
 
         ConcurrentQueue<RequestData> _requests;
 
-        private StockAvProvider _avProvider;
+        private AvStockProvider _avProvider;
 
-        public AvRequestManager(StockAvProvider avProvider)
+        public AvRequestManager(AvStockProvider avProvider)
         {
             _avProvider = avProvider;
             _run = false;
@@ -80,11 +80,11 @@ namespace Av.API
             {
                 case RequestType.Daily:
                 case RequestType.DailyAdjusted:
-                    callback(requestType, symbol, _avProvider.requestDaily(symbol));
+                    callback(requestType, symbol, _avProvider.RequestDaily(symbol));
                     break;
                 case RequestType.Weekly:
                 case RequestType.WeeklyAdjusted:
-                    callback(requestType, symbol, _avProvider.requestWeekly(symbol));
+                    callback(requestType, symbol, _avProvider.RequestWeekly(symbol));
                     break;
                 case RequestType.Monthly:
                 case RequestType.MonthlyAdjusted:
