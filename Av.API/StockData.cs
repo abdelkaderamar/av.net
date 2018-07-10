@@ -36,6 +36,23 @@ namespace Av.API
             IEnumerable<long> query = from item in Data.Values select item.Volume;
             return query.ToArray<long>();
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Historical Data for ").Append(Symbol).Append(Environment.NewLine);
+            foreach(var kvp in Data)
+            {
+                sb.AppendFormat("\tDate = [{0}]", kvp.Value.DateTime).Append("\t:").
+                    AppendFormat("\tVolume = [{0}]", kvp.Value.Volume).
+                    AppendFormat("\tOpen = [{0}]", kvp.Value.Open).
+                    AppendFormat("\tHigh = [{0}]", kvp.Value.High).
+                    AppendFormat("\tLow = [{0}]", kvp.Value.Low).
+                    AppendFormat("\tClose = [{0}]", kvp.Value.Close).
+                    Append(Environment.NewLine);
+            }
+            return sb.ToString();
+        }
     }
 
     public class StockDataItem
@@ -52,5 +69,11 @@ namespace Av.API
         public double Close { get; set; }
         public long Volume { get; set; }
         public double AdjustedClose { get; set; }
+
+        public override string ToString()
+        {
+            // TODO
+            return base.ToString();
+        }
     }
 }

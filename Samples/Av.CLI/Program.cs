@@ -1,9 +1,7 @@
 ﻿using Av.API;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Av.CLI
 {
@@ -12,12 +10,17 @@ namespace Av.CLI
         static void Main(string[] args)
         {
             AvStockProvider provider = new AvStockProvider(args[0]);
-            provider.RequestDaily("SGO.PA");
-            provider.RequestWeekly("SGO.PA");
-            provider.requestMonthly("SGO.PA");
+            var sgoDailyData = provider.RequestDaily("SGO.PA", true);
+            Console.WriteLine(sgoDailyData);
+            var sgoWeeklyData = provider.RequestWeekly("SGO.PA");
+            var sgoMonthlyData = provider.requestMonthly("SGO.PA");
 
-            provider.BatchRequest(new string[] { "MSFT", "IBM", "AAPL" });
-
+            IDictionary<string, StockRealtime> batchData = provider.BatchRequest(new string[] { "MSFT", "IBM", "AAPL" });
+            Console.WriteLine("Batch Request for MSFT, IBM and AAPL");
+            foreach (var kvp in batchData)
+            {
+                Console.WriteLine("{0} : Price = {1}, Volume = {2}, Date = {3}", kvp.Key, kvp.Value.Price, kvp.Value.Volume, kvp.Value.Timestamp);
+            }
             AvRequestManager requestManager = new AvRequestManager(provider);
             string[] stocks = new string[] { "SGO.PA", "GLE.PA", "BNP.PA", "VIV.PA", "RNO.PA", "CS.PA" };
             requestManager.Start();

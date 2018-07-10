@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Av.API
 {
-    public enum RequestType { Daily, DailyAdjusted, Weekly, WeeklyAdjusted, Monthly, MonthlyAdjusted}
+    public enum RequestType { Daily, DailyFull, DailyAdjusted, DailyAdjustedFull, Weekly, WeeklyAdjusted, Monthly, MonthlyAdjusted}
 
     public abstract class AvProvider
     {

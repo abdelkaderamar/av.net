@@ -15,10 +15,11 @@ namespace Av.API
 
         private Thread _thread;
 
+        // Delay betwwen two successive requests
         public static int DEFAULT_DELAY = 2000;
 
+        // Sleep time if requests queue is empty
         public static int YIELD_DELAY = 100;
-        // Delay betwwen two successive requests
 
         ConcurrentQueue<RequestData> _requests;
 
@@ -44,7 +45,7 @@ namespace Av.API
         public void Stop(bool finish)
         {
             _run = false;
-            Finish();
+            if (finish) Finish();
             _thread.Join();
         }
 
@@ -79,8 +80,11 @@ namespace Av.API
             switch (requestType)
             {
                 case RequestType.Daily:
+                case RequestType.DailyFull:
                 case RequestType.DailyAdjusted:
-                    callback(requestType, symbol, _avProvider.RequestDaily(symbol));
+                case RequestType.DailyAdjustedFull:
+                    bool full = (requestType == RequestType.DailyFull || requestType == RequestType.DailyAdjustedFull);
+                    callback(requestType, symbol, _avProvider.RequestDaily(symbol, full));
                     break;
                 case RequestType.Weekly:
                 case RequestType.WeeklyAdjusted:

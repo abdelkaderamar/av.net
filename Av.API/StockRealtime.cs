@@ -18,5 +18,11 @@ namespace Av.API
         public long Volume { get; set; }
 
         public DateTime Timestamp { get; set; }
+
+        public override string ToString()
+        {
+            // TODO
+            return base.ToString();
+        }
     }
 }
