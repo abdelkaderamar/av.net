@@ -25,6 +25,8 @@ namespace CAC40Performance
     /// </summary>
     public partial class MainWindow : Window
     {
+        private BackgroundWorker _worker;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,19 +43,25 @@ namespace CAC40Performance
             };
             PerformanceFormatter = value => value.ToString("P");
             DataContext = this;
+
+            this.refStockCB.ItemsSource = CAC40Helper.CAC40_STOCKS;
+
             PerfManager = new PerformanceManager();
 
             UpdateData(true);
         }
 
         void UpdateData(bool download)
-        { 
-            BackgroundWorker worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += worker_DownloadData;
-            worker.ProgressChanged += worker_ProgressChanged;
-            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-            worker.RunWorkerAsync(download);
+        {
+            this.refStockCB.IsEnabled = false;
+            this.datePicker.IsEnabled = false;
+
+            _worker = new BackgroundWorker();
+            _worker.WorkerReportsProgress = true;
+            _worker.DoWork += worker_DownloadData;
+            _worker.ProgressChanged += worker_ProgressChanged;
+            _worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+            _worker.RunWorkerAsync(download);
         }
 
 
@@ -71,10 +79,14 @@ namespace CAC40Performance
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            this.refStockCB.IsEnabled = true;
+            this.datePicker.IsEnabled = true;
+
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            this.progressBar.Value = e.ProgressPercentage;
         }
 
         private void worker_DownloadData(object sender, DoWorkEventArgs e)
@@ -84,10 +96,12 @@ namespace CAC40Performance
             bool download = (bool)e.Argument;
             if (download)
             {
+                int count = 0;
                 foreach (var symbol in CAC40Helper.CAC40_STOCKS)
                 {
                     StockData stockData = stockProvider.RequestDaily(symbol);
                     PerfManager.StocksData[symbol] = stockData;
+                    _worker.ReportProgress((++count * 100) / CAC40Helper.CAC40_STOCKS.Length);
                     Thread.Sleep(2000);
                 }
             }

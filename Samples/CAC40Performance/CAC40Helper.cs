@@ -26,7 +26,7 @@ namespace CAC40Performance
             "SU.PA",  // SCHNEIDER EL
             "VIV.PA", // VIVENDI
             "KER.PA", // KERING
-            "LR",     // LEGRAND
+            "LR.PA",     // LEGRAND
             "RNO.PA", // RENAULT
             "EN.PA",  // BOUYGUES
             "MC.PA",  // LVMH

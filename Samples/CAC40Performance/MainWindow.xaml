@@ -11,7 +11,10 @@
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <ComboBox x:Name="refStockCB" Margin="8" MinWidth="80" SelectionChanged="ComboBox_SelectionChanged"></ComboBox>
             <DatePicker x:Name="datePicker" Margin="8" MinWidth="80" CalendarClosed="DatePicker_CalendarClosed"></DatePicker>
-            <ProgressBar Minimum="0" Maximum="100" Value="0" Margin="8" MinWidth="128"></ProgressBar>
+            <Grid>
+                <ProgressBar x:Name="progressBar" Minimum="0" Maximum="100" Value="0" Margin="8" MinWidth="128"></ProgressBar>
+                <TextBlock Text="{Binding ElementName=progressBar, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
         </StackPanel>
         <lvc:CartesianChart x:Name="volumeChart" Series="{Binding StockSeriesCollection}" LegendLocation="Right">
             <lvc:CartesianChart.AxisX>
