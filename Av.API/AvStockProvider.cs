@@ -3,8 +3,8 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Threading.Tasks;
+using log4net;
 
 namespace Av.API
 {
@@ -38,6 +38,8 @@ namespace Av.API
         public static readonly string AV_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
         #endregion
 
+        private static readonly ILog log = LogManager.GetLogger(typeof(AvStockProvider));
+
         public AvStockProvider(string key) : base(key)
         {
         }
@@ -57,6 +59,12 @@ namespace Av.API
 
             var stockData = RequestData(json, DAILY_TIME_SERIES);
 
+            if (stockData == null)
+            {
+                log.WarnFormat("Failed to parse the result of request {0}", url);
+                log.WarnFormat("The JSON content is {0}", json);
+            }
+
             return stockData;
         }
 
@@ -68,6 +76,12 @@ namespace Av.API
 
             var stockData = RequestData(json, WEEKLY_TIME_SERIES);
 
+            if (stockData == null)
+            {
+                log.WarnFormat("Failed to parse the result of request {0}", url);
+                log.WarnFormat("The JSON content is {0}", json);
+            }
+
             return stockData;
 
         }
@@ -78,6 +92,12 @@ namespace Av.API
             var json = Request(url).Result;
 
             var stockData = RequestData(json, MONTHLY_TIME_SERIES);
+
+            if (stockData == null)
+            {
+                log.WarnFormat("Failed to parse the result of request {0}", url);
+                log.WarnFormat("The JSON content is {0}", json);
+            }
 
             return stockData;
         }
@@ -93,13 +113,21 @@ namespace Av.API
         protected StockData RequestData(JObject json, string timeSeriesKey)
         {
             bool containAllKeys = json.ContainsKey(META_DATA) && json.ContainsKey(timeSeriesKey);
-            if (!containAllKeys) return null;
+            if (!containAllKeys)
+            {
+                log.WarnFormat("{0} or {1} keys are missing in the resulting JSON", META_DATA, timeSeriesKey);
+                return null;
+            }
 
             var metaData = (JObject)json.GetValue(META_DATA);
             var timeSeries = json.GetValue(timeSeriesKey);
 
             string symbol = GetValue(metaData, SYMBOL_KEY);
-            if (string.IsNullOrEmpty(symbol)) return null; 
+            if (string.IsNullOrEmpty(symbol))
+            {
+                log.WarnFormat("Missing symbol (key is {0})", SYMBOL_KEY);
+                return null;
+            }
 
             StockData stockData = new StockData(symbol);
 
@@ -129,9 +157,9 @@ namespace Av.API
 
                     stockData.AddDataItem(dataItem);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    // TODO
+                    log.ErrorFormat("Exception when parsing json data {0}", e.StackTrace);
                 }
             } // end foreach
             return stockData;
@@ -142,7 +170,11 @@ namespace Av.API
             IDictionary<string, StockRealtime> realtimes = new Dictionary<string, StockRealtime>();
 
             bool containAllKeys = json.ContainsKey(META_DATA) && json.ContainsKey(STOCK_QUOTES);
-            if (!containAllKeys) return null;
+            if (!containAllKeys)
+            {
+                log.WarnFormat("{0} or {1} keys are missing in the resulting JSON", META_DATA, STOCK_QUOTES);
+                return null;
+            }
 
             JToken jtoken = json.GetValue(STOCK_QUOTES);
             if (jtoken is JArray)

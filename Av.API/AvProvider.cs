@@ -4,6 +4,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
 
 namespace Av.API
 {
@@ -17,6 +18,7 @@ namespace Av.API
         public static readonly string SYMBOL_PARAM = "symbol=";
         public static readonly string SYMBOLS_PARAM = "symbols=";
 
+        private static readonly ILog log = LogManager.GetLogger(typeof(AvProvider));
 
         private string _key;
 
@@ -34,8 +36,9 @@ namespace Av.API
             builder.Append(BASE_URL).Append(FUNC_PARAM).Append(function)
                 .Append("&").Append(SYMBOL_PARAM).Append(symbol).Append("&")
                 .Append(APIKEY_PARAM).Append(_key);
-
-            return builder.ToString();
+            var url = builder.ToString();
+            log.DebugFormat("Get Url of {0} | {1} = {2}", symbol, function, url);
+            return url;
         }
 
         public string GetUrl(string[] symbols, string function)
@@ -45,14 +48,21 @@ namespace Av.API
                 .Append("&").Append(SYMBOLS_PARAM).Append(string.Join(",", symbols)).Append("&")
                 .Append(APIKEY_PARAM).Append(_key);
 
-            return builder.ToString();
+            var url = builder.ToString();
+            log.DebugFormat("Get Url of {0} | {1} = {2}", string.Join(",", symbols), function, url);
+            return url;
         }
 
         public async Task<JObject> Request(String url)
         {
             string content = await RequestAsync(url);
             var obj = JsonConvert.DeserializeObject(content);
-            if (! (obj is JObject)) return null;
+            if (!(obj is JObject))
+            {
+                log.Warn("Received object is not a valid JSON object");
+                log.Warn(obj);
+                return null;
+            }
             JObject json = (JObject)obj;
             return json;
         }
@@ -73,6 +83,7 @@ namespace Av.API
                     string content = await response.Content.ReadAsStringAsync();
                     return content;
                 }
+                log.WarnFormat("The request to {0} failed with error code {1}", url, response.StatusCode);
                 return string.Empty;
             }
         }
