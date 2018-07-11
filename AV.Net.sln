@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Av.UI", "Av.UI\Av.UI.csproj", "{F2F61A6C-8B5C-433B-9F7E-579E08853208}"
 EndProject
@@ -11,14 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VolumeChart", "Samples\Volu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleStockVolumeChart", "Samples\MultipleStockVolumeChart\MultipleStockVolumeChart.csproj", "{4DD011D9-DB08-46F8-B953-CB4BADE22E74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAC40Performance", "Samples\CAC40Performance\CAC40Performance.csproj", "{187CBDE1-E0D4-42E7-BD19-1652419A81CC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Av.CLI", "Samples\Av.CLI\Av.CLI.csproj", "{8E226539-5846-4FD3-9D89-FFA85336A20D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E234D834-AEEA-47C0-87B6-7DBBE2A5F96F} = {E234D834-AEEA-47C0-87B6-7DBBE2A5F96F}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Av.API", "Av.API\Av.API.csproj", "{E234D834-AEEA-47C0-87B6-7DBBE2A5F96F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPerformance", "Samples\StockPerformance\StockPerformance.csproj", "{110D64C2-9C02-4F78-A289-B7C81302E53E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +38,6 @@ Global
 		{4DD011D9-DB08-46F8-B953-CB4BADE22E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DD011D9-DB08-46F8-B953-CB4BADE22E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DD011D9-DB08-46F8-B953-CB4BADE22E74}.Release|Any CPU.Build.0 = Release|Any CPU
-		{187CBDE1-E0D4-42E7-BD19-1652419A81CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{187CBDE1-E0D4-42E7-BD19-1652419A81CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{187CBDE1-E0D4-42E7-BD19-1652419A81CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{187CBDE1-E0D4-42E7-BD19-1652419A81CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8E226539-5846-4FD3-9D89-FFA85336A20D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8E226539-5846-4FD3-9D89-FFA85336A20D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E226539-5846-4FD3-9D89-FFA85336A20D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,6 +46,10 @@ Global
 		{E234D834-AEEA-47C0-87B6-7DBBE2A5F96F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E234D834-AEEA-47C0-87B6-7DBBE2A5F96F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E234D834-AEEA-47C0-87B6-7DBBE2A5F96F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{110D64C2-9C02-4F78-A289-B7C81302E53E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{110D64C2-9C02-4F78-A289-B7C81302E53E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{110D64C2-9C02-4F78-A289-B7C81302E53E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{110D64C2-9C02-4F78-A289-B7C81302E53E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,8 +57,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E578086F-2340-4A60-AA06-A33ED436414A} = {071E207F-3E4C-43E4-8360-E72D84B48BAA}
 		{4DD011D9-DB08-46F8-B953-CB4BADE22E74} = {071E207F-3E4C-43E4-8360-E72D84B48BAA}
-		{187CBDE1-E0D4-42E7-BD19-1652419A81CC} = {071E207F-3E4C-43E4-8360-E72D84B48BAA}
 		{8E226539-5846-4FD3-9D89-FFA85336A20D} = {071E207F-3E4C-43E4-8360-E72D84B48BAA}
+		{110D64C2-9C02-4F78-A289-B7C81302E53E} = {071E207F-3E4C-43E4-8360-E72D84B48BAA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {13857122-E7C1-400F-A5C5-41406B6C394D}

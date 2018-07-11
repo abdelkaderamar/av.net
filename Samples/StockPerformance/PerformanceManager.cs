@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using log4net;
 
-namespace CAC40Performance
+namespace StockPerformance
 {
     public class PerformanceManager
     {
@@ -13,14 +13,14 @@ namespace CAC40Performance
         public PerformanceManager()
         {
             StocksData = new Dictionary<string, StockData>();
-            StocksPerformance = new Dictionary<string, StockPerformance>();
+            StocksPerformance = new Dictionary<string, StockPerformanceData>();
         }
 
         public Dictionary<string, StockData> StocksData { get; }
 
-        public Dictionary<string, StockPerformance> StocksPerformance { get; }
+        public Dictionary<string, StockPerformanceData> StocksPerformance { get; }
 
-        public StockPerformance ReferencePerformance { get; set; }
+        public StockPerformanceData ReferencePerformance { get; set; }
 
         public int FindNearest(DateTime date, StockData stockData)
         {
@@ -47,10 +47,10 @@ namespace CAC40Performance
             return (last.Close - first.Close) / first.Close;
         }
 
-        public List<StockPerformance> ComputeAllPerformances(string referenceStock, DateTime referenceDate)
+        public List<StockPerformanceData> ComputeAllPerformances(string referenceStock, DateTime referenceDate)
         {
             StocksPerformance.Clear();
-            ReferencePerformance = new StockPerformance(referenceStock)
+            ReferencePerformance = new StockPerformanceData(referenceStock)
             {
                 Performance = ComputePerformance(referenceStock, referenceDate)
             };
@@ -60,7 +60,7 @@ namespace CAC40Performance
                 var symbol = data.Key;
                 try
                 {
-                    StockPerformance stockPerformance = new StockPerformance(symbol)
+                    StockPerformanceData stockPerformance = new StockPerformanceData(symbol)
                     {
                         Performance = ComputePerformance(symbol, referenceDate)
                     };
@@ -78,7 +78,7 @@ namespace CAC40Performance
                 }
             }
 
-            List<StockPerformance> stockPerfList = new List<StockPerformance>(StocksPerformance.Values);
+            List<StockPerformanceData> stockPerfList = new List<StockPerformanceData>(StocksPerformance.Values);
             stockPerfList.Sort();
             return stockPerfList;
         }

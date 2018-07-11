@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using log4net;
 
-namespace CAC40Performance
+namespace StockPerformance
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml

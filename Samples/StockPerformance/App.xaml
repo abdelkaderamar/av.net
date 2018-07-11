@@ -1,7 +1,7 @@
-﻿<Application x:Class="CAC40Performance.App"
+﻿<Application x:Class="StockPerformance.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:CAC40Performance"
+             xmlns:local="clr-namespace:StockPerformance"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CAC40Performance
+namespace StockPerformance
 {
     public class CAC40Helper
     {
