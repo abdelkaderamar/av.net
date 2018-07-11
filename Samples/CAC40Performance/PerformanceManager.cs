@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using log4net;
 
 namespace CAC40Performance
 {
     public class PerformanceManager
     {
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public PerformanceManager()
         {
             StocksData = new Dictionary<string, StockData>();
@@ -37,6 +38,10 @@ namespace CAC40Performance
         {
             if (!StocksData.ContainsKey(symbol)) throw new ApplicationException(symbol + " data not found");
             var stockData = StocksData[symbol];
+            if (stockData.Data == null || stockData.Data.Values == null)
+            {
+                throw new ApplicationException(symbol + " data empty");
+            }
             var first = stockData.Data.Values.ElementAt(FindNearest(referenceDate, stockData));
             var last = stockData.Data.Values.Last();
             return (last.Close - first.Close) / first.Close;
@@ -63,11 +68,13 @@ namespace CAC40Performance
                 }
                 catch (ApplicationException e)
                 {
-                    Console.WriteLine(e.StackTrace);
+                    Log.Error("ApplicationException when computing performances " + e.Message);
+                    Log.Error(e.StackTrace);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.StackTrace);
+                    Log.Error("Exception when computing performances " + e.Message);
+                    Log.Error(e.StackTrace);
                 }
             }
 

@@ -2,21 +2,11 @@
 using LiveCharts;
 using LiveCharts.Wpf;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using log4net;
 
 namespace CAC40Performance
 {
@@ -25,6 +15,8 @@ namespace CAC40Performance
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private BackgroundWorker _worker;
 
         public MainWindow()
@@ -44,7 +36,7 @@ namespace CAC40Performance
             PerformanceFormatter = value => value.ToString("P");
             DataContext = this;
 
-            this.refStockCB.ItemsSource = CAC40Helper.CAC40_STOCKS;
+            refStockCB.ItemsSource = CAC40Helper.CAC40_STOCKS;
 
             PerfManager = new PerformanceManager();
 
@@ -79,14 +71,14 @@ namespace CAC40Performance
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.refStockCB.IsEnabled = true;
-            this.datePicker.IsEnabled = true;
+            refStockCB.IsEnabled = true;
+            datePicker.IsEnabled = true;
 
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            this.progressBar.Value = e.ProgressPercentage;
+            progressBar.Value = e.ProgressPercentage;
         }
 
         private void worker_DownloadData(object sender, DoWorkEventArgs e)
@@ -100,14 +92,20 @@ namespace CAC40Performance
                 foreach (var symbol in CAC40Helper.CAC40_STOCKS)
                 {
                     StockData stockData = stockProvider.RequestDaily(symbol);
-                    PerfManager.StocksData[symbol] = stockData;
                     _worker.ReportProgress((++count * 100) / CAC40Helper.CAC40_STOCKS.Length);
-                    Thread.Sleep(2000);
+                    if (stockData == null)
+                    {
+                        Log.Error("Failed to dowload daily data for " + symbol);
+                        continue;
+                    }
+                    PerfManager.StocksData[symbol] = stockData;
+                    Thread.Sleep(2500);
                 }
-            }
+                Log.Info("Download completed");
+            } // end if (download)
             var stocksPerformances = PerfManager.ComputeAllPerformances(ReferenceStock, ReferenceDate);
             string[] labels = new string[stocksPerformances.Count];
-            for (int i=0; i<stocksPerformances.Count; ++i)
+            for (int i = 0; i < stocksPerformances.Count; ++i)
             {
                 labels[i] = stocksPerformances[i].Symbol;
                 StockSeriesCollection[0].Values.Add(stocksPerformances[i].Performance - PerfManager.ReferencePerformance.Performance);
@@ -116,7 +114,6 @@ namespace CAC40Performance
             {
                 this.AxisX.Labels = labels;
             }));
-            Console.WriteLine("Download completed");
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
