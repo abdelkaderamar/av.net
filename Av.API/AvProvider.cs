@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,6 +51,20 @@ namespace Av.API
 
             var url = builder.ToString();
             log.DebugFormat("Get Url of {0} | {1} = {2}", string.Join(",", symbols), function, url);
+            return url;
+        }
+
+        public string GetUrl(string function, IList<KeyValuePair<string, string>> args)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(BASE_URL).Append(FUNC_PARAM).Append(function);
+            foreach (var kvp in args)
+            {
+                builder.Append("&").Append(kvp.Key).Append("=").Append(kvp.Value);
+            }
+            builder.Append("&").Append(APIKEY_PARAM).Append(_key);
+            var url = builder.ToString();
+            log.DebugFormat("Get Url of {0} = {1}", function, url);
             return url;
         }
 

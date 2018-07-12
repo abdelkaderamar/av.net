@@ -1,5 +1,6 @@
 ﻿using Av.API;
 using System;
+using System.Threading;
 using System.Collections.Generic;
 using log4net;
 using log4net.Config;
@@ -10,9 +11,40 @@ namespace Av.CLI
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(Program));
 
+        static void Usage()
+        {
+            Console.WriteLine("Syntax error");
+            Console.WriteLine("Usage : ");
+            Console.WriteLine("\tAv.CLI <AlphaVantage key> [CURRENCY]");
+        }
+
+        static void RequestCurrencies(string avKey)
+        {
+            AvCurrencyProvider currencyProvider = new AvCurrencyProvider(avKey);
+            var cryptoCurrencies = new List<string>() { "BTC", "ETH", "XRP", "BCH", "EOS", "LTC", "XLM", "ADA" };
+            foreach (var cryptoCurr in cryptoCurrencies)
+            {
+                var rate = currencyProvider.RequestExchangeRate(cryptoCurr, "USD");
+                if (rate != null)
+                    Console.WriteLine(rate);
+                Thread.Sleep(2000);
+            }
+            Console.ReadKey();
+        }
+
         static void Main(string[] args)
         {
             XmlConfigurator.Configure();
+            if (args.Length == 0)
+            {
+                Usage();
+                return;
+            }
+            if (args[1].Equals("CURRENCY"))
+            {
+                RequestCurrencies(args[0]);
+                return;
+            }
             AvStockProvider provider = new AvStockProvider(args[0]);
             var sgoDailyData = provider.RequestDaily("SGO.PA", true);
             log.Info(sgoDailyData);
