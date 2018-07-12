@@ -18,17 +18,32 @@ namespace Av.CLI
             Console.WriteLine("\tAv.CLI <AlphaVantage key> [CURRENCY]");
         }
 
+        static void PrintExchangeRate(CurrencyRequestType requestType, string fromCurr, string toCurr, CurrencyExchangeRate rate)
+        {
+            if (rate == null)
+            {
+                Console.WriteLine("Failed to get rate for {0} to {1}", fromCurr, toCurr);
+                return;
+            }
+            Console.WriteLine(rate);
+        }
+
         static void RequestCurrencies(string avKey)
         {
             AvCurrencyProvider currencyProvider = new AvCurrencyProvider(avKey);
+            AvCurrencyRequestManager requestManager = new AvCurrencyRequestManager(currencyProvider);
+            requestManager.Start();
             var cryptoCurrencies = new List<string>() { "BTC", "ETH", "XRP", "BCH", "EOS", "LTC", "XLM", "ADA" };
             foreach (var cryptoCurr in cryptoCurrencies)
             {
-                var rate = currencyProvider.RequestExchangeRate(cryptoCurr, "USD");
-                if (rate != null)
-                    Console.WriteLine(rate);
-                Thread.Sleep(2000);
+                requestManager.Add(CurrencyRequestType.ExchangeRate, cryptoCurr, "USD", PrintExchangeRate);
+                requestManager.Add(CurrencyRequestType.ExchangeRate, cryptoCurr, "EUR", PrintExchangeRate);
+                //var rate = currencyProvider.RequestExchangeRate(cryptoCurr, "USD");
+                //if (rate != null)
+                //    Console.WriteLine(rate);
+                //Thread.Sleep(2000);
             }
+            requestManager.Stop(true);
             Console.ReadKey();
         }
 
@@ -59,20 +74,20 @@ namespace Av.CLI
             {
                 log.InfoFormat("{0} : Price = {1}, Volume = {2}, Date = {3}", kvp.Key, kvp.Value.Price, kvp.Value.Volume, kvp.Value.Timestamp);
             }
-            AvRequestManager requestManager = new AvRequestManager(provider);
+            AvStockRequestManager requestManager = new AvStockRequestManager(provider);
             string[] stocks = new string[] { "SGO.PA", "GLE.PA", "BNP.PA", "VIV.PA", "RNO.PA", "CS.PA" };
             requestManager.Start();
             foreach (var stock in stocks)
             {
-                requestManager.Add(RequestType.Daily, stock, Callback);
-                requestManager.Add(RequestType.Weekly, stock, Callback);
-                requestManager.Add(RequestType.Monthly, stock, Callback);
+                requestManager.Add(StockRequestType.Daily, stock, Callback);
+                requestManager.Add(StockRequestType.Weekly, stock, Callback);
+                requestManager.Add(StockRequestType.Monthly, stock, Callback);
             }
             requestManager.Stop(true);
 
         }
 
-        private static void Callback(RequestType requestType, string symbol, StockData stockData)
+        private static void Callback(StockRequestType requestType, string symbol, StockData stockData)
         {
 
             if (stockData == null)

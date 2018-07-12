@@ -47,8 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AvCurrencyProvider.cs" />
+    <Compile Include="AvCurrencyRequestManager.cs" />
     <Compile Include="AvProvider.cs" />
     <Compile Include="AvRequestManager.cs" />
+    <Compile Include="AvStockRequestManager.cs" />
     <Compile Include="AvStockProvider.cs" />
     <Compile Include="BatchKeys.cs" />
     <Compile Include="CurrencyExchangeRate.cs" />

@@ -36,12 +36,17 @@ namespace Av.API
 
             var json = await Request(url);
 
+            CurrencyExchangeRate rate = null;
             if (json is JObject)
             {
-                return CurrencyExchangeRate.FromJson((JObject)json);
+                rate = CurrencyExchangeRate.FromJson((JObject)json);
             }
-            log.WarnFormat("Unable to parse requet result {0}", json);
-            return null;
+            if (rate == null)
+            {
+                log.WarnFormat("Failed to parse the result of request {0}", url);
+                log.WarnFormat("The JSON content is {0}", json);
+            }
+            return rate;
         }
     }
 }

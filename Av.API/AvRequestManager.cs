@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Collections.Concurrent;
 using System.Threading;
-
 
 namespace Av.API
 {
-    using RequestData = Tuple<RequestType, string, System.Action<RequestType, string, StockData>>;
-
-    public class AvRequestManager
+    public abstract class AvRequestManager<REQUEST_TYPE, REQUEST_DATA>
     {
-        private bool _run;
+        protected bool _run;
 
-        private Thread _thread;
+        protected Thread _thread;
 
         // Delay betwwen two successive requests
         public static int DEFAULT_DELAY = 2000;
@@ -21,20 +19,17 @@ namespace Av.API
         // Sleep time if requests queue is empty
         public static int YIELD_DELAY = 100;
 
-        ConcurrentQueue<RequestData> _requests;
+        protected ConcurrentQueue<REQUEST_DATA> _requests;
 
-        private AvStockProvider _avProvider;
-
-        public AvRequestManager(AvStockProvider avProvider)
+        public AvRequestManager()
         {
-            _avProvider = avProvider;
             _run = false;
             _thread = new Thread(Run);
             Delay = DEFAULT_DELAY;
-            _requests = new ConcurrentQueue<RequestData>();
+            _requests = new ConcurrentQueue<REQUEST_DATA>();
         }
 
-        int Delay { get; set; }
+        public int Delay { get; set; }
 
         public void Start()
         {
@@ -42,23 +37,11 @@ namespace Av.API
             _thread.Start();
         }
 
-        public void Stop(bool finish)
-        {
-            _run = false;
-            if (finish) Finish();
-            _thread.Join();
-        }
-
-        public void Add(RequestType requestType, string symbol, Action<RequestType, string, StockData> callback)
-        {
-            _requests.Enqueue(new RequestData(requestType, symbol, callback));
-        }
-
         protected void Run()
         {
             while (_run)
             {
-                RequestData requestData;
+                REQUEST_DATA requestData;
                 if (_requests.TryDequeue(out requestData))
                 {
                     Execute(requestData);
@@ -71,40 +54,24 @@ namespace Av.API
             }
         }
 
-        private void Execute(RequestData requestData)
+        public void Stop(bool finish)
         {
-            var requestType = requestData.Item1;
-            var symbol = requestData.Item2;
-            var callback = requestData.Item3;
-
-            switch (requestType)
-            {
-                case RequestType.Daily:
-                case RequestType.DailyFull:
-                case RequestType.DailyAdjusted:
-                case RequestType.DailyAdjustedFull:
-                    bool full = (requestType == RequestType.DailyFull || requestType == RequestType.DailyAdjustedFull);
-                    callback(requestType, symbol, _avProvider.RequestDaily(symbol, full));
-                    break;
-                case RequestType.Weekly:
-                case RequestType.WeeklyAdjusted:
-                    callback(requestType, symbol, _avProvider.RequestWeekly(symbol));
-                    break;
-                case RequestType.Monthly:
-                case RequestType.MonthlyAdjusted:
-                    callback(requestType, symbol, _avProvider.requestMonthly(symbol));
-                    break;
-            }
+            _run = false;
+            if (finish) Finish();
+            _thread.Join();
         }
 
-        private void Finish()
+        protected void Finish()
         {
-            RequestData requestData;
+            REQUEST_DATA requestData;
             while (_requests.TryDequeue(out requestData))
             {
                 Execute(requestData);
                 Thread.Sleep(Delay);
             }
         }
+
+        protected abstract void Execute(REQUEST_DATA requestData);
+
     }
 }
