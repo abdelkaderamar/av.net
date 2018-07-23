@@ -40,3 +40,5 @@ MIT
 # Open Source Components/Libraries
 - [Json.NET](https://www.newtonsoft.com/json)
 - [LiveCharts](https://lvcharts.net/)
+- [log4net](https://logging.apache.org/log4net/)
+
