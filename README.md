@@ -53,6 +53,47 @@ The API provides types to manage the successive requests and the errors. Current
 
 The following examples use the `AvStockRequestManager` but the same can be done with the other requests manager.
 
+1. Creating the request manager
+```csharp
+AvStockRequestManager requestManager = new AvStockRequestManager(provider);
+requestManager.Start();
+```
+2. Add a request
+```csharp
+requestManager.Add(StockRequestType.Daily, stock, Callback);
+```
+3. Processing the results
+```csharp
+private static void Callback(StockRequestType requestType, string symbol, StockData stockData)
+{
+    if (stockData == null)
+    {
+      Console.WriteLine("No {0} data received for symbol {1}", requestType.ToString(), symbol);
+     }
+     else
+     {
+         Console.WriteLine("Receiving {0} data for symbol {1}", requestType.ToString(), symbol);
+         Console.WriteLine("\t{0} data", stockData.Data.Count);
+         Console.WriteLine("\t{0}", stockData);
+     }
+}
+```
+
+### Customize request processing
+The Request Manager has several properties and methods to control the processing of the requests
+
+#### `Delay`
+This property is used to set the delay in milliseconds between two successive requests.
+
+#### `EnabledRetry`
+When set to `true`, the request manager will retry to download data if high usage error is received from *AlphaVantage* server. When high usage error is received, the request manager increased the delay between the requests.
+
+#### `MaxRetry`
+This property define the maximum number of successive retry when hig usage error is received.  
+
+#### Stopping the request manager
+To stop the request manager thread, there is method `Stop`. If the argument `finish` is set to `true`, the request manager will process all the pending requests before effectively stop the thread.
+
 # Samples
 
 ## Volume Chart
