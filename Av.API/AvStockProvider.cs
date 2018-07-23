@@ -55,7 +55,8 @@ namespace Av.API
             {
                 if (e.InnerException is HighUsageException)
                 {
-                    throw new HighUsageException(e.InnerException.Message);
+                    log.WarnFormat("Highusage exception when requestion daily data for {0}", symbol);
+                    throw e.InnerException;
                 }
             }
             return null;
@@ -70,17 +71,7 @@ namespace Av.API
 
             var stockData = RequestData(json, DAILY_TIME_SERIES);
 
-            if (stockData == null)
-            {
-                log.WarnFormat("Failed to parse the result of request {0}", url);
-                log.WarnFormat("The JSON content is {0}", json);
-                var props = json.Children<JProperty>();
-                foreach (var prop in props)
-                {
-                    if (prop.Value.ToString().Contains("if you would like to have a higher API call volume"))
-                        throw new HighUsageException("High Usage error when requesting daily data for " + symbol);
-                }
-            }
+            CheckStockData(stockData, url, json, symbol);
 
             return stockData;
         }
@@ -93,11 +84,7 @@ namespace Av.API
 
             var stockData = RequestData(json, WEEKLY_TIME_SERIES);
 
-            if (stockData == null)
-            {
-                log.WarnFormat("Failed to parse the result of request {0}", url);
-                log.WarnFormat("The JSON content is {0}", json);
-            }
+            CheckStockData(stockData, url, json, symbol);
 
             return stockData;
 
@@ -110,11 +97,7 @@ namespace Av.API
 
             var stockData = RequestData(json, MONTHLY_TIME_SERIES);
 
-            if (stockData == null)
-            {
-                log.WarnFormat("Failed to parse the result of request {0}", url);
-                log.WarnFormat("The JSON content is {0}", json);
-            }
+            CheckStockData(stockData, url, json, symbol);
 
             return stockData;
         }
@@ -208,6 +191,26 @@ namespace Av.API
                 }
             }
             return realtimes;
+        }
+
+        protected void CheckStockData(StockData stockData, string url, JObject json, string symbol)
+        {
+            if (stockData == null)
+            {
+                log.WarnFormat("Failed to parse the result of request {0}", url);
+                log.WarnFormat("The JSON content is {0}", json);
+                CheckHighUsage(json, symbol);
+            }
+        }
+
+        protected void CheckHighUsage(JObject json, string symbol)
+        {
+            var props = json.Children<JProperty>();
+            foreach (var prop in props)
+            {
+                if (prop.Value.ToString().Contains("if you would like to have a higher API call volume"))
+                    throw new HighUsageException("High Usage error when requesting daily data for " + symbol);
+            }
         }
 
         static string GetValue(JObject json, string property)

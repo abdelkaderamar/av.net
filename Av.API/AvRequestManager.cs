@@ -23,9 +23,9 @@ namespace Av.API
         public static readonly int YIELD_DELAY = 100;
 
         // Delay increment if the request is rejected for high usage (ms)
-        public static readonly int DELAY_INCREMENT = 500;
+        public static readonly int DELAY_INCREMENT = 1000;
 
-        public static readonly int DEFAULT_MAX_RETRY = 4;
+        public static readonly int DEFAULT_MAX_RETRY = 8;
 
         protected int _currentRetry = 0;
 
@@ -112,7 +112,7 @@ namespace Av.API
 
         protected void ResetDelay()
         {
-            CurrentDelay = Delay;
+            CurrentDelay = Math.Max(Delay, CurrentDelay - DELAY_INCREMENT);
             _currentRetry = 0;
         }
 
