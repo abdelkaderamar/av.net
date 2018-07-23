@@ -46,8 +46,19 @@ namespace Av.API
 
         public StockData RequestDaily(string symbol, bool full = false)
         {
-            var stockData = RequestDailyAsync(symbol, full).Result;
-            return stockData;
+            try
+            {
+                var stockData = RequestDailyAsync(symbol, full).Result;
+                return stockData;
+            }
+            catch (AggregateException e)
+            {
+                if (e.InnerException is HighUsageException)
+                {
+                    throw new HighUsageException(e.InnerException.Message);
+                }
+            }
+            return null;
         }
 
         public async Task<StockData> RequestDailyAsync(string symbol, bool full = false)
@@ -63,6 +74,12 @@ namespace Av.API
             {
                 log.WarnFormat("Failed to parse the result of request {0}", url);
                 log.WarnFormat("The JSON content is {0}", json);
+                var props = json.Children<JProperty>();
+                foreach (var prop in props)
+                {
+                    if (prop.Value.ToString().Contains("if you would like to have a higher API call volume"))
+                        throw new HighUsageException("High Usage error when requesting daily data for " + symbol);
+                }
             }
 
             return stockData;
@@ -131,7 +148,7 @@ namespace Av.API
 
             StockData stockData = new StockData(symbol);
 
-            foreach(var data in timeSeries.Children<JProperty>())
+            foreach (var data in timeSeries.Children<JProperty>())
             {
                 if (!(data.Value is JObject)) continue;
                 JObject jdata = (JObject)(data.Value);
@@ -185,7 +202,7 @@ namespace Av.API
                     string symbol = GetValue(stockQuote, BatchKeys.SYMBOL);
                     double price = GetDoubleValue(stockQuote, BatchKeys.PRICE);
                     long volume = GetLongValue(stockQuote, BatchKeys.VOLUME);
-                    DateTime timestamp = DateTime.ParseExact(GetValue(stockQuote, BatchKeys.TIMESTAMP), 
+                    DateTime timestamp = DateTime.ParseExact(GetValue(stockQuote, BatchKeys.TIMESTAMP),
                         AV_DATETIME_FORMAT, CultureInfo.InvariantCulture);
                     realtimes[symbol] = new StockRealtime(symbol) { Price = price, Volume = volume, Timestamp = timestamp };
                 }

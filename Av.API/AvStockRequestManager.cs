@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Threading;
+using log4net;
 
 namespace Av.API
 {
@@ -7,7 +9,12 @@ namespace Av.API
 
     public class AvStockRequestManager : AvRequestManager<StockRequestType, StockRequestData>
     {
+
+        private static readonly ILog log = LogManager.GetLogger(typeof(AvStockRequestManager));
+
         private AvStockProvider _avStcokProvider;
+
+
 
         public AvStockRequestManager(AvStockProvider avStockProvider)
         {
@@ -26,24 +33,40 @@ namespace Av.API
             var symbol = requestData.Item2;
             var callback = requestData.Item3;
 
-            switch (requestType)
+            try
             {
-                case StockRequestType.Daily:
-                case StockRequestType.DailyFull:
-                case StockRequestType.DailyAdjusted:
-                case StockRequestType.DailyAdjustedFull:
-                    bool full = (requestType == StockRequestType.DailyFull || requestType == StockRequestType.DailyAdjustedFull);
-                    callback(requestType, symbol, _avStcokProvider.RequestDaily(symbol, full));
-                    break;
-                case StockRequestType.Weekly:
-                case StockRequestType.WeeklyAdjusted:
-                    callback(requestType, symbol, _avStcokProvider.RequestWeekly(symbol));
-                    break;
-                case StockRequestType.Monthly:
-                case StockRequestType.MonthlyAdjusted:
-                    callback(requestType, symbol, _avStcokProvider.requestMonthly(symbol));
-                    break;
+                switch (requestType)
+                {
+                    case StockRequestType.Daily:
+                    case StockRequestType.DailyFull:
+                    case StockRequestType.DailyAdjusted:
+                    case StockRequestType.DailyAdjustedFull:
+                        bool full = (requestType == StockRequestType.DailyFull || requestType == StockRequestType.DailyAdjustedFull);
+                        var stockData = _avStcokProvider.RequestDaily(symbol, full);
+                        callback(requestType, symbol, stockData);
+                        break;
+                    case StockRequestType.Weekly:
+                    case StockRequestType.WeeklyAdjusted:
+                        callback(requestType, symbol, _avStcokProvider.RequestWeekly(symbol));
+                        break;
+                    case StockRequestType.Monthly:
+                    case StockRequestType.MonthlyAdjusted:
+                        callback(requestType, symbol, _avStcokProvider.requestMonthly(symbol));
+                        break;
+                }
+                ResetDelay();
             }
+            catch (HighUsageException e)
+            {
+                if (CanRetry()) ReExecute(requestData);
+                else
+                {
+                    log.ErrorFormat("Max retry count reached => Failed to execute request {0}/{1}",
+                        requestType, symbol);
+                    ResetDelay();
+                }
+            }
+
         }
 
     }

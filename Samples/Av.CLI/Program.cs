@@ -55,28 +55,29 @@ namespace Av.CLI
                 Usage();
                 return;
             }
-            if (args[1].Equals("CURRENCY"))
+            if (args.Length > 1 && args[1].Equals("CURRENCY"))
             {
                 RequestCurrencies(args[0]);
                 return;
             }
             AvStockProvider provider = new AvStockProvider(args[0]);
-            var sgoDailyData = provider.RequestDaily("SGO.PA", true);
-            log.Info(sgoDailyData);
-            var sgoWeeklyData = provider.RequestWeekly("SGO.PA");
-            log.Info(sgoWeeklyData);
-            var sgoMonthlyData = provider.requestMonthly("SGO.PA");
-            log.Info(sgoMonthlyData);
+            //var sgoDailyData = provider.RequestDaily("SGO.PA", true);
+            //log.Info(sgoDailyData);
+            //var sgoWeeklyData = provider.RequestWeekly("SGO.PA");
+            //log.Info(sgoWeeklyData);
+            //var sgoMonthlyData = provider.requestMonthly("SGO.PA");
+            //log.Info(sgoMonthlyData);
 
-            IDictionary<string, StockRealtime> batchData = provider.BatchRequest(new string[] { "MSFT", "IBM", "AAPL" });
-            log.Info("Batch Request for MSFT, IBM and AAPL");
-            foreach (var kvp in batchData)
-            {
-                log.InfoFormat("{0} : Price = {1}, Volume = {2}, Date = {3}", kvp.Key, kvp.Value.Price, kvp.Value.Volume, kvp.Value.Timestamp);
-            }
+            //IDictionary<string, StockRealtime> batchData = provider.BatchRequest(new string[] { "MSFT", "IBM", "AAPL" });
+            //log.Info("Batch Request for MSFT, IBM and AAPL");
+            //foreach (var kvp in batchData)
+            //{
+            //    log.InfoFormat("{0} : Price = {1}, Volume = {2}, Date = {3}", kvp.Key, kvp.Value.Price, kvp.Value.Volume, kvp.Value.Timestamp);
+            //}
             AvStockRequestManager requestManager = new AvStockRequestManager(provider);
             string[] stocks = new string[] { "SGO.PA", "GLE.PA", "BNP.PA", "VIV.PA", "RNO.PA", "CS.PA" };
             requestManager.Start();
+            requestManager.Delay = 4000;
             foreach (var stock in stocks)
             {
                 requestManager.Add(StockRequestType.Daily, stock, Callback);
