@@ -71,8 +71,29 @@ namespace StockPerformance
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            Log.Info("Download completed");
+            UpdatePerformances();
+        }
+
+        private void UpdatePerformances()
+        { 
+            var stocksPerformances = PerfManager.ComputeAllPerformances(ReferenceStock, ReferenceDate);
+            string[] labels = new string[stocksPerformances.Count];
+            for (int i = 0; i < stocksPerformances.Count; ++i)
+            {
+                labels[i] = stocksPerformances[i].Symbol;
+                StockSeriesCollection[0].Values.Add(stocksPerformances[i].Performance - PerfManager.ReferencePerformance.Performance);
+            }
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                this.AxisX.Labels = labels;
+            }));
+
             refStockCB.IsEnabled = true;
             datePicker.IsEnabled = true;
+
+            refStockCB.SelectedItem = ReferenceStock;
+            datePicker.SelectedDate = ReferenceDate;
 
         }
 
@@ -85,35 +106,34 @@ namespace StockPerformance
         {
             StockSeriesCollection[0].Values.Clear();
             AvStockProvider stockProvider = new AvStockProvider("XD6HTE47G8ZZIDRB");
+            AvStockRequestManager stockRequestMgr = new AvStockRequestManager(stockProvider);
+            stockRequestMgr.EnabledRetry = true;
+            stockRequestMgr.Delay = 8000;
+            stockRequestMgr.MaxRetry = 10;
+            stockRequestMgr.Start();
             bool download = (bool)e.Argument;
             if (download)
             {
-                int count = 0;
                 foreach (var symbol in CAC40Helper.CAC40_STOCKS)
                 {
-                    StockData stockData = stockProvider.RequestDaily(symbol);
-                    _worker.ReportProgress((++count * 100) / CAC40Helper.CAC40_STOCKS.Length);
-                    if (stockData == null)
-                    {
-                        Log.Error("Failed to dowload daily data for " + symbol);
-                        continue;
-                    }
-                    PerfManager.StocksData[symbol] = stockData;
-                    Thread.Sleep(2500);
+                    stockRequestMgr.Add(StockRequestType.Daily, symbol, StockDailyCallback);
                 }
-                Log.Info("Download completed");
             } // end if (download)
-            var stocksPerformances = PerfManager.ComputeAllPerformances(ReferenceStock, ReferenceDate);
-            string[] labels = new string[stocksPerformances.Count];
-            for (int i = 0; i < stocksPerformances.Count; ++i)
+            stockRequestMgr.Stop(true);
+        }
+
+        protected void StockDailyCallback(StockRequestType requestType, string symbol, StockData stockData)
+        {
+            if (stockData != null)
             {
-                labels[i] = stocksPerformances[i].Symbol;
-                StockSeriesCollection[0].Values.Add(stocksPerformances[i].Performance - PerfManager.ReferencePerformance.Performance);
+                Log.InfoFormat("Receiving {0} data for symbol {1}", requestType, symbol);
+                PerfManager.StocksData[symbol] = stockData;
+                _worker.ReportProgress((PerfManager.StocksData.Count * 100) / CAC40Helper.CAC40_STOCKS.Length);
             }
-            this.Dispatcher.BeginInvoke(new Action(() =>
+            else
             {
-                this.AxisX.Labels = labels;
-            }));
+                Log.WarnFormat("Failed to download {0} data for symbol {1}", requestType, symbol);
+            }
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

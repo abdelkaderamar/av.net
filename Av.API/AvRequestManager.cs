@@ -17,7 +17,7 @@ namespace Av.API
         protected Thread _thread;
 
         // Delay betwwen two successive requests (ms)
-        public static readonly int DEFAULT_DELAY = 2000;
+        public static readonly int DEFAULT_DELAY = 4000;
 
         // Sleep time if requests queue is empty (ms)
         public static readonly int YIELD_DELAY = 100;
@@ -86,7 +86,7 @@ namespace Av.API
             while (_requests.TryDequeue(out requestData))
             {
                 Execute(requestData);
-                Thread.Sleep(Delay);
+                Thread.Sleep(CurrentDelay);
             }
         }
 
