@@ -9,9 +9,47 @@ Currently, the API includes the following features:
 - Request daily data
 - Request weekly data
 - Request monthly data
+- Request currency exchange rate (crypto/currency)
 
 # Requirements
-The project require Microsoft Visual Studio 2017.
+The project require Microsoft Visual Studio 2015 or 2017.
+
+# Usage
+
+The data can be retrieved using two methods:
+1. Directly using one the available provider (`AvStockProvider` or `AvCurrencyProvider`). Because of the limitation on the number of the requests and their frequency, when this method is used, it is your responsability to manage the delay between requests.
+2. Delegating the requests to one of the available request manager (`AvStockRequestManager` or `AvCurrencyRequestManager`).
+
+## Direct request
+Fist you need to create the data provider, for stock data it is `AvStockProvider` and for currencies data it is `AvCurrencyProvider`. The constructor needs your AlphaVantage key as an argument.
+
+```csharp
+AvStockProvider provider = new AvStockProvider(key);
+```
+
+Then you can call directly one of the available methods to retrieve the data
+
+```csharp
+// Download daily data from 2000 (second argument = true)
+StockData sgoDailyData = provider.RequestDaily("SGO.PA", true);
+
+// Download weekly data
+StockData sgoWeeklyData = provider.RequestWeekly("SGO.PA");
+
+// Download monthly data
+StockData sgoMonthlyData = provider.requestMonthly("SGO.PA", true);
+
+// Download batch data (available only for US stocks)
+IDictionary<string, StockRealtime> batchData = provider.BatchRequest(new string[] { "MSFT", "IBM", "AAPL" });
+```
+When using this method, you need to handle the dely between successive requests and errors.
+
+
+## Using `RequestManager`
+
+The API provides types to manage the successive requests and the errors. Currently, two types are available:
+- `AvStockRequestManager`: for stock requests
+- `AvCurrencyRequestManager`: for currency requests
 
 # Samples
 
@@ -41,4 +79,3 @@ MIT
 - [Json.NET](https://www.newtonsoft.com/json)
 - [LiveCharts](https://lvcharts.net/)
 - [log4net](https://logging.apache.org/log4net/)
-
