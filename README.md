@@ -51,6 +51,8 @@ The API provides types to manage the successive requests and the errors. Current
 - `AvStockRequestManager`: for stock requests
 - `AvCurrencyRequestManager`: for currency requests
 
+The following examples use the `AvStockRequestManager` but the same can be done with the other requests manager.
+
 # Samples
 
 ## Volume Chart
