@@ -6,7 +6,7 @@
     <title>Alpha Vantage non official C# API</title>
     <authors>Abdelkader Amar</authors>
     <owners>abdelkader.amar@gmail.com</owners>
-    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <licenseUrl>https://opensource.org/licenses/Apache-2.0</licenseUrl>
     <projectUrl>https://github.com/abdelkaderamar/av.net/</projectUrl>
     <iconUrl>https://github.com/abdelkaderamar/av.net/blob/master/icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
