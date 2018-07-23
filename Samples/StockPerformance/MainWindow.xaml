@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StockPerformance"
        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="CAC40 Performance" Height="450" Width="800">
+        Title="Stock Performance" Height="450" Width="800">
     <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <ComboBox x:Name="refStockCB" Margin="8" MinWidth="80" SelectionChanged="ComboBox_SelectionChanged"></ComboBox>
