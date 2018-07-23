@@ -116,7 +116,7 @@ the CAC40 perfomance for the last 100 trading days.
 ![CAC40 Performance](res/img/AV.NET-Screenshot03.png)
 
 # License
-MIT
+Apache License, Version 2.0
 
 # Open Source Components/Libraries
 - [Json.NET](https://www.newtonsoft.com/json)

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Av.API</id>
-    <version>0.1</version>
+    <version>0.2</version>
     <title>Alpha Vantage non official C# API</title>
     <authors>Abdelkader Amar</authors>
     <owners>abdelkader.amar@gmail.com</owners>
