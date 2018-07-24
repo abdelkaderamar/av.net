@@ -9,12 +9,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="True">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-            <!--
-            <ComboBox x:Name="StockSerieTypesCombo"  Margin="8" MinWidth="120"
-                  ItemsSource="{Binding Path=StockSerieTypes}"
-                  SelectedValue="{Binding Path=StockSerieType}" HorizontalAlignment="Center"
-                  SelectionChanged="ComboBox_SelectionChanged" DropDownClosed="ComboBox_DropDownClosed"/>
-            -->
             <TextBox x:Name="stockTextBox" MinWidth="80" Margin="8"></TextBox>
             <Button x:Name="addStockBtn" Content="Add" Margin="8" Click="addStockBtn_Click"></Button>
         </StackPanel>

@@ -7,19 +7,8 @@ using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MultipleStockVolumeChart
 {
@@ -38,7 +27,6 @@ namespace MultipleStockVolumeChart
 
             StockSeriesCollection = new SeriesCollection
             {
-                // new LineSeries{Title = "Volume", Values = new ChartValues<StockDataItem>() }
             };
 
 
@@ -74,7 +62,7 @@ namespace MultipleStockVolumeChart
                 removeStock(symbol);
             });
 
-            this.allStocksPanel.Children.Add(stockPanel);
+            allStocksPanel.Children.Add(stockPanel);
 
             var lineSeries = new LineSeries { Title = symbol, Values = new ChartValues<StockDataItem>(stockData.Data.Values) };
             StockSeriesCollection.Add(lineSeries);
