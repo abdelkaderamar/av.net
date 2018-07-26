@@ -117,11 +117,11 @@ more stocks. The stocks can be added and removed dynamically.
 ![Multiple Volume Charts](res/img/AV.NET-Screenshot02.png)
 
 
-## CAC40 performance
-This program computes and displays the performance of the stocks of the CAC40 vs
-the CAC40 perfomance for the last 100 trading days.
+## Stock performance
+This program computes and displays the performance of the stocks of the CAC40 indice vs
+a reference stock for the last 100 trading days.
 
-![CAC40 Performance](res/img/AV.NET-Screenshot03.png)
+![Stock Performance](res/img/AV.NET-Screenshot03.png)
 
 # License
 Apache License, Version 2.0
