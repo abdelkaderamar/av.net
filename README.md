@@ -1,8 +1,8 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/2ha06b13b4gkrx9f?svg=true)](https://ci.appveyor.com/project/abdelkaderamar/av-net)
 
-# AV.NET
+# <span>AV.NET</span>
 
-AV.NET is a C# library for [AlphaVantage](https://www.alphavantage.co/) service.
+<span>AV.NET</span> is a C# library for [AlphaVantage](https://www.alphavantage.co/) service.
 
 # Installation
 
