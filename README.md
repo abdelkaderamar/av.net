@@ -4,6 +4,14 @@
 
 AV.NET is a C# library for [AlphaVantage](https://www.alphavantage.co/) service.
 
+# Installation
+
+You can clone the source code or use the nuget package.
+
+```
+Install-Package Av.API -Version 0.2.0
+```
+
 # Features
 Currently, the API includes the following features:
 - Request daily data
