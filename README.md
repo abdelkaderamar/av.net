@@ -2,7 +2,7 @@
 
 # <span>AV.NET</span>
 
-<span>AV.NET</span> is a C# library for [AlphaVantage](https://www.alphavantage.co/) service.
+AV<span>.NET</span> is a C# library for [AlphaVantage](https://www.alphavantage.co/) service.
 
 # Installation
 
