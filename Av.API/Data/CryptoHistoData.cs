@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Newtonsoft.Json.Linq;
 
 namespace Av.API.Data
@@ -11,6 +12,8 @@ namespace Av.API.Data
 
     public class CryptoHistoData : AvData
     {
+        public const string AV_DATE_FORMAT = "yyyy-MM-dd";
+
         #region JSON keys
         public const string META_DATA = "Meta Data";
         public const string INTRADY_TIME_SERIES = "Time Series (Digital Currency Intraday)";
@@ -33,6 +36,10 @@ namespace Av.API.Data
             "5. volume": "9419.42850037",
             "6. market cap (USD)": "69484110.88869999"
         */
+        public const string OPEN_USD_KEY = "1b. open (USD)";
+        public const string HIGH_USD_KEY = "2b. high (USD)";
+        public const string LOW_USD_KEY = "3b. low (USD)";
+        public const string CLOSE_USD_KEY = "4b. close (USD)";
         public const string VOLUME_KEY = "5. volume";
         public const string MARKET_CAP_KEY = "6. market cap (USD)";
         #endregion
@@ -57,20 +64,39 @@ namespace Av.API.Data
             Market = JsonHelper.GetValue(metaData, MARKET_CODE_KEY);
             Data = new SortedDictionary<DateTime, CryptoDataItem>();
 
-            foreach(var entry in timeSeries.Children<JProperty>())
+            string openKey = OPEN_USD_KEY.Replace("b.", "a.").Replace("USD", Market);
+            string highKey = HIGH_USD_KEY.Replace("b.", "a.").Replace("USD", Market);
+            string lowKey = LOW_USD_KEY.Replace("b.", "a.").Replace("USD", Market);
+            string closeKey = CLOSE_USD_KEY.Replace("b.", "a.").Replace("USD", Market);
+
+            foreach (var entry in timeSeries.Children<JProperty>())
             {
                 Console.WriteLine(entry.Name);
+                DateTime dateTime = DateTime.ParseExact(entry.Name, AV_DATE_FORMAT, CultureInfo.InvariantCulture);
+
                 JObject entryData = entry.Value as JObject;
                 CryptoDataItem dataItem = default(CryptoDataItem);
-                if (ParseTimeSeriesEntry(ref dataItem, entryData))
+                dataItem._date = dateTime;
+                if (ParseTimeSeriesEntry(ref dataItem, entryData, openKey, highKey, lowKey, closeKey))
                 {
                     Data[dataItem._date] = dataItem;
                 }
             }
         }
 
-        public static bool ParseTimeSeriesEntry(ref CryptoDataItem dataItem, JObject jobject)
+        public static bool ParseTimeSeriesEntry(ref CryptoDataItem dataItem, JObject jobject, 
+            string openKey, string highKey, string lowKey, string closeKey)
         {
+            dataItem._open = JsonHelper.GetDecimalValue(jobject, openKey);
+            dataItem._high = JsonHelper.GetDecimalValue(jobject, highKey);
+            dataItem._low = JsonHelper.GetDecimalValue(jobject, lowKey);
+            dataItem._close = JsonHelper.GetDecimalValue(jobject, closeKey);
+
+            dataItem._openUSD = JsonHelper.GetDecimalValue(jobject, OPEN_USD_KEY);
+            dataItem._highUSD = JsonHelper.GetDecimalValue(jobject, HIGH_USD_KEY);
+            dataItem._lowUSD = JsonHelper.GetDecimalValue(jobject, LOW_USD_KEY);
+            dataItem._closeUSD = JsonHelper.GetDecimalValue(jobject, CLOSE_USD_KEY);
+
             dataItem._volume = JsonHelper.GetDecimalValue(jobject, VOLUME_KEY);
             dataItem._marketCapUSD = JsonHelper.GetDecimalValue(jobject, MARKET_CAP_KEY);
 
@@ -102,6 +128,11 @@ namespace Av.API.Data
 
         public struct CryptoDataItem
         {
+            //public CryptoDataItem(DateTime date) : this()
+            //{
+            //    _date = date;
+            //}
+
             public DateTime _date;
             public decimal _open;
             public decimal _openUSD;
