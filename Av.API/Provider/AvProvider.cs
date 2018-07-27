@@ -18,11 +18,11 @@ namespace Av.API.Provider
 
     public abstract class AvProvider
     {
-        public static readonly string BASE_URL = "https://www.alphavantage.co/query?";
-        public static readonly string FUNC_PARAM = "function=";
-        public static readonly string APIKEY_PARAM = "apikey=";
-        public static readonly string SYMBOL_PARAM = "symbol=";
-        public static readonly string SYMBOLS_PARAM = "symbols=";
+        public const string BASE_URL = "https://www.alphavantage.co/query?";
+        public const string FUNC_PARAM = "function=";
+        public const string APIKEY_PARAM = "apikey=";
+        public const string SYMBOL_PARAM = "symbol=";
+        public const string SYMBOLS_PARAM = "symbols=";
 
         private static readonly ILog log = LogManager.GetLogger(typeof(AvProvider));
 

@@ -16,31 +16,31 @@ namespace Av.API.Provider
     public class AvStockProvider : AvProvider
     {
         #region Functions constants
-        public static readonly string DAILY_FUNC = "TIME_SERIES_DAILY";
-        public static readonly string WEEKLY_FUNC = "TIME_SERIES_WEEKLY";
-        public static readonly string MONTHLY_FUNC = "TIME_SERIES_MONTHLY";
-        public static readonly string BATCH_FUNC = "BATCH_STOCK_QUOTES";
+        public const string DAILY_FUNC = "TIME_SERIES_DAILY";
+        public const string WEEKLY_FUNC = "TIME_SERIES_WEEKLY";
+        public const string MONTHLY_FUNC = "TIME_SERIES_MONTHLY";
+        public const string BATCH_FUNC = "BATCH_STOCK_QUOTES";
         #endregion
 
         #region JSON keys
-        public static readonly string META_DATA = "Meta Data";
-        public static readonly string DAILY_TIME_SERIES = "Time Series (Daily)";
-        public static readonly string WEEKLY_TIME_SERIES = "Weekly Time Series";
-        public static readonly string MONTHLY_TIME_SERIES = "Monthly Time Series";
-        public static readonly string STOCK_QUOTES = "Stock Quotes";
+        public const string META_DATA = "Meta Data";
+        public const string DAILY_TIME_SERIES = "Time Series (Daily)";
+        public const string WEEKLY_TIME_SERIES = "Weekly Time Series";
+        public const string MONTHLY_TIME_SERIES = "Monthly Time Series";
+        public const string STOCK_QUOTES = "Stock Quotes";
 
-        public static readonly string SYMBOL_KEY = "2. Symbol";
+        public const string SYMBOL_KEY = "2. Symbol";
 
-        public static readonly string OPEN_KEY = "1. open";
-        public static readonly string HIGH_KEY = "2. high";
-        public static readonly string LOW_KEY = "3. low";
-        public static readonly string CLOSE_KEY = "4. close";
-        public static readonly string VOLUME_KEY = "5. volume";
+        public const string OPEN_KEY = "1. open";
+        public const string HIGH_KEY = "2. high";
+        public const string LOW_KEY = "3. low";
+        public const string CLOSE_KEY = "4. close";
+        public const string VOLUME_KEY = "5. volume";
         #endregion
 
         #region AlphaVantage format
-        public static readonly string AV_DATE_FORMAT = "yyyy-MM-dd";
-        public static readonly string AV_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+        public const string AV_DATE_FORMAT = "yyyy-MM-dd";
+        public const string AV_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
         #endregion
 
         private static readonly ILog log = LogManager.GetLogger(typeof(AvStockProvider));

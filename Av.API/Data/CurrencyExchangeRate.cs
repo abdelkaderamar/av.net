@@ -24,17 +24,17 @@ namespace Av.API.Data
     public class CurrencyExchangeRate
     {
         #region JSON keys
-        public static readonly string REALTIME_CURRENCY_EXCHANGE_RATE_KEY = "Realtime Currency Exchange Rate";
-        public static readonly string FROM_CURRENCY_CODE_KEY = "1. From_Currency Code";
-        public static readonly string FROM_CURRENCY_NAME_KEY = "2. From_Currency Name";
-        public static readonly string TO_CURRENCY_CODE_KEY = "3. To_Currency Code";
-        public static readonly string TO_CURRENCY_NAME_KEY = "4. To_Currency Name";
-        public static readonly string EXCHANGE_RATE_KEY = "5. Exchange Rate";
-        public static readonly string LAST_REFRESHED_KEY = "6. Last Refreshed";
-        public static readonly string TIME_ZONE_KEY = "7. Time Zone";
+        public const string REALTIME_CURRENCY_EXCHANGE_RATE_KEY = "Realtime Currency Exchange Rate";
+        public const string FROM_CURRENCY_CODE_KEY = "1. From_Currency Code";
+        public const string FROM_CURRENCY_NAME_KEY = "2. From_Currency Name";
+        public const string TO_CURRENCY_CODE_KEY = "3. To_Currency Code";
+        public const string TO_CURRENCY_NAME_KEY = "4. To_Currency Name";
+        public const string EXCHANGE_RATE_KEY = "5. Exchange Rate";
+        public const string LAST_REFRESHED_KEY = "6. Last Refreshed";
+        public const string TIME_ZONE_KEY = "7. Time Zone";
         #endregion
 
-        public static readonly string LAST_REFRESHED_FORMAT = "yyyy-MM-dd hh:mm:ss";
+        public const string LAST_REFRESHED_FORMAT = "yyyy-MM-dd hh:mm:ss";
 
         public CurrencyExchangeRate(string fromCurrCode, string toCurrCode)
         {

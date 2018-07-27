@@ -16,7 +16,8 @@ namespace Av.API.Provider
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(AvCryptoCurrencyProvider));
 
-        public const string MARKET_PARAM = "market=";
+        public const string SYMBOL_ARG = "symbol";
+        public const string MARKET_ARG = "market";
 
         public const string DIGITAL_CURRENCY_INTRADAY_FUNC = "DIGITAL_CURRENCY_INTRADAY";
         public const string DIGITAL_CURRENCY_DAILY_FUNC = "DIGITAL_CURRENCY_DAILY";
@@ -29,29 +30,34 @@ namespace Av.API.Provider
         public CryptoHistoData RequestDaily(string currency, string market)
         {
 
-            return RequestHistoData(currency, market, DIGITAL_CURRENCY_INTRADAY_FUNC).Result;
+            return RequestHistoData(currency, market, DIGITAL_CURRENCY_DAILY_FUNC);
         }
 
         public CryptoHistoData RequestWeekly(string currency, string market)
         {
-            return RequestHistoData(currency, market, DIGITAL_CURRENCY_WEEKLY_FUNC).Result;
+            return RequestHistoData(currency, market, DIGITAL_CURRENCY_WEEKLY_FUNC);
 
         }
 
         public CryptoHistoData RequestMonthly(string currency, string market)
         {
-            return RequestHistoData(currency, market, DIGITAL_CURRENCY_MONTHLY_FUNC).Result;
+            return RequestHistoData(currency, market, DIGITAL_CURRENCY_MONTHLY_FUNC);
         }
 
-        protected Task<CryptoHistoData> RequestHistoData(string currency, string market, string function)
+        protected CryptoHistoData RequestHistoData(string currency, string market, string function)
         {
             var args = new List<KeyValuePair<string, string>>();
-            args.Add(new KeyValuePair<string, string>(SYMBOL_PARAM, currency));
-            args.Add(new KeyValuePair<string, string>(MARKET_PARAM, market));
+            args.Add(new KeyValuePair<string, string>(SYMBOL_ARG, currency));
+            args.Add(new KeyValuePair<string, string>(MARKET_ARG, market));
 
             var url = GetUrl(function, args);
 
-            throw new NotImplementedException();
+            var json = Request(url).Result;
+
+            CryptoHistoData cryptoData = new CryptoHistoData(CryptoHistoDataType.Daily);
+            cryptoData.Init(json as JObject);
+
+            return cryptoData;
         }
 
     }

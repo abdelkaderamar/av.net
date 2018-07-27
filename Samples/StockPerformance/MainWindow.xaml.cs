@@ -72,7 +72,7 @@ namespace StockPerformance
 
         public Func<double, string> PerformanceFormatter { get; }
 
-        public static readonly string CAC40 = "^FCHI";
+        public const string CAC40 = "^FCHI";
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {

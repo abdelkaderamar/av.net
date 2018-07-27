@@ -10,9 +10,9 @@ namespace Av.API
 {
     public class BatchKeys
     {
-        public static readonly string SYMBOL = "1. symbol";
-        public static readonly string PRICE = "2. price";
-        public static readonly string VOLUME = "3. volume";
-        public static readonly string TIMESTAMP = "4. timestamp";
+        public const string SYMBOL = "1. symbol";
+        public const string PRICE = "2. price";
+        public const string VOLUME = "3. volume";
+        public const string TIMESTAMP = "4. timestamp";
     }
 }

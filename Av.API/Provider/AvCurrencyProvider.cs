@@ -17,10 +17,10 @@ namespace Av.API.Provider
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(AvCurrencyProvider));
 
-        public static readonly string FROM_CURRENCY_ARG = "from_currency";
-        public static readonly string TO_CURRENCY_ARG = "to_currency";
+        public const string FROM_CURRENCY_ARG = "from_currency";
+        public const string TO_CURRENCY_ARG = "to_currency";
 
-        public static readonly string CURRENCY_EXCHANGE_RATE_FUNC = "CURRENCY_EXCHANGE_RATE";
+        public const string CURRENCY_EXCHANGE_RATE_FUNC = "CURRENCY_EXCHANGE_RATE";
 
         public AvCurrencyProvider(string key) : base(key)
         {
