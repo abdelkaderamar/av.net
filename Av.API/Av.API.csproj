@@ -46,14 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AvCryptoCurrencyProvider.cs" />
     <Compile Include="AvCurrencyProvider.cs" />
     <Compile Include="AvCurrencyRequestManager.cs" />
+    <Compile Include="AvDataFactory.cs" />
     <Compile Include="AvProvider.cs" />
     <Compile Include="AvRequestManager.cs" />
     <Compile Include="AvStockRequestManager.cs" />
     <Compile Include="AvStockProvider.cs" />
     <Compile Include="BatchKeys.cs" />
+    <Compile Include="CryptoHistoData.cs" />
     <Compile Include="CurrencyExchangeRate.cs" />
+    <Compile Include="Data\AvData.cs" />
     <Compile Include="HighUsageException.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
