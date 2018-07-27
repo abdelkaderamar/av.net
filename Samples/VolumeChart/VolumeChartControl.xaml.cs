@@ -10,6 +10,8 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using Av.API.Data;
+using Av.API.Provider;
 
 
 namespace VolumeChart

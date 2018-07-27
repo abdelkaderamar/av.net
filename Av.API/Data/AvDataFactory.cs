@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Av.API.Data;
 using Newtonsoft.Json.Linq;
 
-namespace Av.API
+namespace Av.API.Data
 {
     public enum AvDataType { StockHisto, CryptoHisto};
     public class AvDataFactory

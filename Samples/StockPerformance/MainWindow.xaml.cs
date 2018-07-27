@@ -3,11 +3,12 @@
 
 
 ﻿using Av.API;
+﻿using Av.API.Data;
+﻿using Av.API.Provider;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System;
 using System.ComponentModel;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using log4net;

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using log4net;
 
-namespace Av.API
+namespace Av.API.Provider
 {
     public enum StockRequestType { Daily, DailyFull, DailyAdjusted, DailyAdjustedFull, Weekly, WeeklyAdjusted, Monthly, MonthlyAdjusted}
 

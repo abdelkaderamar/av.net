@@ -9,8 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using log4net;
 using Newtonsoft.Json.Linq;
+using Av.API.Data;
 
-namespace Av.API
+namespace Av.API.Provider
 {
     public class AvCurrencyProvider : AvProvider
     {

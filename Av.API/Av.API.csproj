@@ -46,26 +46,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AvCryptoCurrencyProvider.cs" />
-    <Compile Include="AvCurrencyProvider.cs" />
     <Compile Include="AvCurrencyRequestManager.cs" />
-    <Compile Include="AvDataFactory.cs" />
-    <Compile Include="AvProvider.cs" />
     <Compile Include="AvRequestManager.cs" />
     <Compile Include="AvStockRequestManager.cs" />
-    <Compile Include="AvStockProvider.cs" />
     <Compile Include="BatchKeys.cs" />
-    <Compile Include="CryptoHistoData.cs" />
-    <Compile Include="CurrencyExchangeRate.cs" />
     <Compile Include="Data\AvData.cs" />
+    <Compile Include="Data\AvDataFactory.cs" />
+    <Compile Include="Data\CryptoHistoData.cs" />
+    <Compile Include="Data\CurrencyExchangeRate.cs" />
+    <Compile Include="Data\StockData.cs" />
+    <Compile Include="Data\StockRealtime.cs" />
     <Compile Include="HighUsageException.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StockData.cs" />
-    <Compile Include="StockRealtime.cs" />
+    <Compile Include="Provider\AvCryptoCurrencyProvider.cs" />
+    <Compile Include="Provider\AvCurrencyProvider.cs" />
+    <Compile Include="Provider\AvProvider.cs" />
+    <Compile Include="Provider\AvStockProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Av.API
+namespace Av.API.Data
 {
     public class StockData
     {

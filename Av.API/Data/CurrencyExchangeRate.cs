@@ -6,7 +6,7 @@
 using Newtonsoft.Json.Linq;
 using System.Text;
 
-namespace Av.API
+namespace Av.API.Data
 {
     /*
     {

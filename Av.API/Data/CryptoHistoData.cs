@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Av.API
+namespace Av.API.Data
 {
     public class CryptoHistoData
     {

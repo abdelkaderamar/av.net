@@ -6,7 +6,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Av.API
+namespace Av.API.Data
 {
     public class StockRealtime
     {

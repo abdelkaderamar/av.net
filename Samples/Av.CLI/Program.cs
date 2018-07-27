@@ -8,6 +8,8 @@ using System.Threading;
 using System.Collections.Generic;
 using log4net;
 using log4net.Config;
+using Av.API.Data;
+using Av.API.Provider;
 
 namespace Av.CLI
 {

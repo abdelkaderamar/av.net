@@ -9,6 +9,8 @@ using LiveCharts.Wpf;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using Av.API.Data;
+using Av.API.Provider;
 
 namespace MultipleStockVolumeChart
 {

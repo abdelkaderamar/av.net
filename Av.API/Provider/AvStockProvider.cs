@@ -9,8 +9,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using log4net;
+using Av.API.Data;
 
-namespace Av.API
+namespace Av.API.Provider
 {
     public class AvStockProvider : AvProvider
     {
