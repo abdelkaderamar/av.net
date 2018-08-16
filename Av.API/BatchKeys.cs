@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Av.API
 {
-    public class BatchKeys
+    public static class BatchKeys
     {
         public const string SYMBOL = "1. symbol";
         public const string PRICE = "2. price";

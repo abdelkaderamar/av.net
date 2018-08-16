@@ -9,7 +9,7 @@ using log4net;
 
 namespace Av.API
 {
-    public class JsonHelper
+    public static class JsonHelper
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(JsonHelper));
 
